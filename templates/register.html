@@ -1,0 +1,74 @@
+{% extends 'landing.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+<link rel="stylesheet" href="{{url_for('static', filename='css/signin.css')}}">
+
+{% block content %}
+
+{% for message in get_flashed_messages() %}
+
+	<div class="alert alert-warning alert-dismissible fade show" role="alert">
+	  {{ message }}
+	  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+
+{% endfor %}
+
+    <div class="container">
+
+        <form class="form-signin" method="POST" action="/register">
+            <h2 class="form-signin-heading">Register Now!</h2>
+            {{ form.hidden_tag() }}
+
+            <div class="col-sm-6">
+                {{ form.name.label(class="form-label") }}
+                {{ form.name(class="form-control")}}
+            </div>
+            </br>
+
+            <div class="col-sm-6">
+                {{ form.username.label(class="form-label") }}
+                {{ form.username(class="form-control")}}
+            </div>
+            </br>
+
+            <div class="col-sm-6">
+                {{ form.email.label(class="form-label") }}
+                {{ form.email(class="form-control")}}
+            </div>
+            </br>
+
+            <div class="col-sm-6">
+                {{ form.password_hash.label(class="form-label") }}
+                {{ form.password_hash(class="form-control") }}
+            </div>
+            </br>
+
+            <div class="col-sm-6">
+                {{ form.password_hash2.label(class="form-label") }}
+                {{ form.password_hash2(class="form-control") }}
+            </div>
+            </br>
+
+            <div class="row g-3">
+                <div class="col-sm-3">
+                    {{ form.chapter_letters.label(class="form-label") }}
+                    {{ form.chapter_letters(class="form-control")}}
+                </div>
+
+                <div class="col-sm-3">
+                    {{ form.class_year.label(class="form-label") }}
+                    {{ form.class_year(class="form-control")}}
+                </div>
+            </div>
+            </br>
+            <button class="btn btn-sm btn-primary btn-block" type="submit">Sign Up</button>
+        </form>
+
+    </div> <!-- /container -->
+
+    <br>
+
+{% endblock %}
+

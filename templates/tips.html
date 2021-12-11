@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% for message in get_flashed_messages() %}
+
+	<div class="alert alert-warning alert-dismissible fade show" role="alert">
+	  {{ message }}
+	  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+
+{% endfor %}
+
+    <center><h1>Read all the tips</h1></center>
+    </br>
+
+    <form method="POST", action="{{ url_for('search')}}", class="d-flex">
+        {{ form.hidden_tag()}}
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search", name="searched">
+        <button class="btn btn-light" type="submit">Search</button>
+    </form>
+    </br>
+
+    {% for tip in tips %}
+    <div class="shadow text-white bg-dark p-3 mb-5 ">
+        
+        <div class="card-header"><h3>🦁 {{ tip.title }}</h3></div>
+        <br>
+
+        <h5>Company: <strong>{{ tip.topic }} </strong></h5>
+        <p>written by {{ tip.poster.username }} | {{ tip.date_posted }}</p>     
+
+        {{ tip.body | safe | truncate(50) }} <br>
+        <br>
+        {% if tip.poster.id == current_user.id %}
+        <a href="{{ url_for('tip', id=tip.id)}}">Read</a>
+        <a href="{{ url_for('edit_tip', id=tip.id)}}">Edit</a>
+        <a href="{{ url_for('delete_tip', id=tip.id)}}">Delete</a>
+        {% else %}
+        <a href="{{ url_for('tip', id=tip.id)}}">Read</a>
+        {% endif %}
+        <div class="card-footer bg-transparent border-warning"">
+            <br>
+            <p><strong>{{tip.likes|length}} brothers have liked this post!</strong></p>
+        </div>
+
+
+
+    </div>
+    {% endfor %}
+    <a href="/add-tip"><button type="button" class="btn btn-outline-warning">+</button></a>
+    <br><br>
+
+
+{% endblock %}

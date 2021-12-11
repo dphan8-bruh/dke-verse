@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% for message in get_flashed_messages() %}
+
+	<div class="alert alert-warning alert-dismissible fade show" role="alert">
+	  {{ message }}
+	  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+
+{% endfor %}
+
+<br>
+<div class="card text-white bg-dark">
+    <h2 class="card-header text-warning">Hello, {{ current_user.name }}</h2>
+    
+    <div class="card-body">
+        <h4 class="card-title text-info">Account Information</h4>
+        <p class="card-text">Full name: {{ current_user.name }}</p>
+        <p class="card-text">Username: {{ current_user.username }}</p>
+        <p class="card-text">Email: <em>{{ current_user.email }} </em></p>
+        <p class="card-text">Chapter: <em>{{ current_user.chapter_letters}} </em> | Class: {{ current_user.class_year}}</p>
+        <p class="card-text">Member since: <em>{{ current_user.date_added }} </em></p>
+        <br>
+        <a href="{{ url_for('update', id=current_user.id)}}" class="btn btn-warning btn-sm">Update Profile</a>
+    </div>
+</div>
+<br>
+
+{% for tip in tips %}
+{% if tip.poster.id == current_user.id %}
+<div class="text-white p-3 mb-5 bg-dark rounded">
+
+    <div class="card-header border-warning">
+
+    <h3>{{ tip.title }}</h3>
+    </div>
+    <br>
+    <h5>Topic: {{ tip.topic }} </h5>
+    <p>By: {{ tip.poster.name }} || {{ tip.date_posted }}</p>     
+
+    {{ tip.body | safe }} <br>
+    
+
+    <a href="{{ url_for('tip', id=tip.id)}}">Read</a>
+    <a href="{{ url_for('edit_tip', id=tip.id)}}">Edit</a>
+    <a href="{{ url_for('delete_tip', id=tip.id)}}">Delete</a>
+
+</div>
+
+{% endif %}
+{% endfor %}
+
+{% endblock %}

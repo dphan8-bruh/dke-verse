@@ -1,0 +1,24 @@
+{% extends 'landing.html' %}
+
+<link rel="stylesheet" href="{{url_for('static', filename='css/home.css')}}">
+
+{% block content %}
+<div class="card p-5">
+  <center>
+    <h1>DKE-VERSE</h1>
+
+  </center>
+
+  <br>
+
+
+
+  <div class="home-buttons">
+    <p>Connect and learn from brothers of the past! DKE-VERSE is here to help all brothers to know how to ace that next interview or score that next job</p>
+    <a href="{{ url_for('login')}}"><button type="button" class="btn btn-primary btn-lg">Login</button></a>
+    <a href="{{ url_for('register')}}"><button type="button" class="btn btn-outline-primary btn-lg">Register</button></a>
+  </div>
+
+
+</div>
+{% endblock %}

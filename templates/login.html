@@ -1,0 +1,40 @@
+{% extends 'landing.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+{% for message in get_flashed_messages() %}
+
+	<div class="alert alert-warning alert-dismissible fade show" role="alert">
+	  {{ message }}
+	  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+
+{% endfor %}
+    <div class="container">
+ 
+        <form class="form-signin" method="POST" action="/login">
+            <h2 class="form-signin-heading">Login</h2>
+            {{ form.hidden_tag() }}
+
+            <div class="col-sm-3">
+                {{ form.username.label(class="form-label") }}
+                {{ form.username(class="form-control")}}
+            </div>
+            </br>
+
+            <div class="col-sm-3">
+                {{ form.password.label(class="form-label") }}
+                {{ form.password(class="form-control") }}
+            </div>
+            </br>
+
+            {{wtf.form_field(form.remember)}}
+            </br>
+            <button class="btn btn-sm btn-primary btn-block" type="submit">Login</button>
+        </form>
+    </div> <!-- /container -->
+
+    <br>
+
+{% endblock %}
+

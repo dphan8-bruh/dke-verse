@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% for message in get_flashed_messages() %}
+
+	<div class="alert alert-warning alert-dismissible fade show" role="alert">
+	  {{ message }}
+	  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+
+{% endfor %}
+
+
+
+<div class="shadow text-white p-3 mb-5 bg-dark rounded">
+    <div class="card-header"><h3>🦁 {{ tip.title }}</h3></div>
+    <h5>Topic: {{ tip.topic }} </h5>
+    <p>by {{ tip.poster.name }} | {{ tip.date_posted }}</p>     
+
+    {{ tip.body | safe}} <br><br>
+
+
+    {% if tip.poster.id == current_user.id %}
+    <a href="{{ url_for('edit_tip', id=tip.id)}}">Edit</a>
+    <a href="{{ url_for('delete_tip', id=tip.id)}}">Delete</a>
+    <a href="{{ url_for('tip_page')}}">Back</a>
+    {% else %}
+    <a href="{{ url_for('tip_page')}}">Back</a>
+    
+    {% endif %}
+    <br><br><br>
+    {{tip.likes|length}}
+    <a href="/like/{{tip.id}}"><button type="button" class="btn btn-outline-success">Like</button></a>
+
+
+</div>
+
+
+
+<div class="container">
+<form class="input-group mb-3" method="POST" action="/comment/{{ tip.id }}">
+    <input type="text" id="body" name="body" class="form-control" placeholder="Comment something!" />
+<button type="submit" class="btn btn-outline-dark">Comment</button>
+</div>
+<br>
+
+
+{% for comment in tip.comments %}
+
+<div class="card text-white bg-dark mb-5" >
+    <div class="card-header"><h3>{{ comment.poster.username }} | {{ comment.date_posted}}</h3></div>
+        <div class="card-body">
+        <p class="card-text">{{ comment.body }}</p>
+
+        <div class="card-footer">
+        {% if tip.poster.id == current_user.id or comment.poster.id == current_user.id%}
+        <a href="/tip/{{tip.id}}/comment/delete/{{ comment.id }}">Delete</a>
+        {% endif %} 
+        </div>
+
+    </div>
+</div>
+
+{% endfor %}
+
+
+</form>
+{% endblock %}
